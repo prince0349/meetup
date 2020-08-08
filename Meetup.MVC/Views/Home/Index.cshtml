@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>List of User</h1>
+</div>
+<link href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery-1.12.3.js"></script>
+<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#GetallData").click(function () {
+            $("#tblPopulation").show();
+            $.ajax({
+
+                url: 'http://localhost:63821/api/users',
+                dataType: "json",
+                type: "Get",
+                //contentType: 'application/json; charset=utf-8',
+                //data: {Id:Id},
+                success: function (data) {
+                    var tr;
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        tr = tr + "<tr>";
+                        tr = tr + "<td  style='padding: 5px;'>" + data[i].UserId + "</td>";
+                        tr = tr + "<td  style='padding: 5px;'><a href='http://localhost:63809/Home/About'>" + data[i].FirstName + "<a/></td>";
+                        tr = tr + "<td  style='padding: 5px;'>" + data[i].LastName + "</td>";
+                        tr = tr + "<td  style='padding: 5px;'>" + data[i].EmailId + "</td>";
+                        tr = tr + "<td  style='padding: 5px;'>" + data[i].Location + "</td>";
+                        tr = tr + "</tr>";
+                    }
+                    $('#tblPopulation').append(tr);
+                    tblFormate();
+                },
+                error: function (xhr) {
+                    alert('No Valid Data');
+                }
+            });
+        });
+    });
+</script>
+
+<input type="button" id="GetallData" value="Get User Data" />
+
+<table id="tblPopulation" style="border:1px;">
+    <thead>
+        <tr>
+            <td style="padding:5px;">Id</td>
+            <td style="padding:5px;">First Name</td>
+            <td  style="padding:5px;">Last Name</td>
+            <td style="padding:5px;">Email Address</td>
+            <td style="padding:5px;">Location</td>
+        </tr>
+         
+
+</table>
+
